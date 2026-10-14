@@ -1,0 +1,2157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de muestras e informes - Itsotec</title>
+    <style>
+        /* ============================================================
+           PALETA ÚNICA — MODO CLARO PROFESIONAL
+           ============================================================ */
+        :root {
+            --primary-green:  #1b5e20;
+            --accent-green:   #2e7d32;
+            --light-green:    #e8f5e9;
+            --border-color:   #c8e6c9;
+            --border-soft:    #e2e8f0;
+            --bg-body:        #f4f6f8;
+            --panel-bg:       #ffffff;
+            --panel-hover:    #f8fafc;
+            --text-main:      #2c3e50;
+            --text-sub:       #7f8c8d;
+            --text-muted:     #94a3b8;
+            --tab-bg:         #e2e8f0;
+            --tab-active:     #ffffff;
+            --shadow:         0 10px 25px -5px rgba(0, 0, 0, 0.1),
+                              0 8px 10px -6px rgba(0, 0, 0, 0.1);
+            --shadow-soft:    0 4px 6px rgba(0, 0, 0, 0.08);
+            --success-bg:     #dcfce7;
+            --success-text:   #166534;
+            --error-bg:       #fee2e2;
+            --error-text:     #991b1b;
+            --warning-bg:     #fef3c7;
+            --warning-text:   #92400e;
+            --info-bg:        #dbeafe;
+            --info-text:      #1e40af;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        html, body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            min-height: 100%;
+        }
+
+        body {
+            padding: 15px;
+        }
+
+        .system-wrapper {
+            max-width: 210mm;
+            margin: 0 auto;
+        }
+
+        /* ============================================================
+           CABECERA DEL SISTEMA
+           ============================================================ */
+        .system-header {
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            padding: 20px 25px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .system-title-area h1 {
+            font-size: 1.4rem;
+            color: var(--primary-green);
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        .system-title-area p {
+            font-size: 0.85rem;
+            color: var(--text-sub);
+            margin-top: 3px;
+        }
+
+        .system-clock {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 2px;
+            font-size: 0.8rem;
+            color: var(--text-sub);
+        }
+
+        .system-clock .clock-fecha {
+            font-weight: 600;
+            color: var(--primary-green);
+        }
+
+        .system-clock .clock-hora {
+            font-size: 0.75rem;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+        }
+
+        /* ============================================================
+           PESTAÑAS
+           ============================================================ */
+        .nav-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+            overflow-x: auto;
+            padding-bottom: 4px;
+        }
+
+        .tab-btn {
+            background-color: var(--tab-bg);
+            color: var(--text-sub);
+            border: 1px solid transparent;
+            padding: 10px 18px;
+            border-radius: 8px 8px 0 0;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .tab-btn:hover {
+            color: var(--primary-green);
+            background-color: var(--panel-hover);
+        }
+
+        .tab-btn.active {
+            background-color: var(--tab-active);
+            color: var(--primary-green);
+            border-top: 3px solid var(--primary-green);
+            border-left: 1px solid var(--border-color);
+            border-right: 1px solid var(--border-color);
+            box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.06);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* ============================================================
+           PANEL DE CONTROL
+           ============================================================ */
+        .control-panel {
+            background: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            padding: 12px 20px;
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .panel-buttons {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, var(--accent-green), var(--primary-green));
+            color: #ffffff;
+            border: none;
+            padding: 9px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.82rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .btn-serial {
+            background: linear-gradient(135deg, #0284c7, #0369a1);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            padding: 5px 10px;
+            font-size: 0.75rem;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #64748b, #475569);
+        }
+
+        .btn-mini {
+            padding: 4px 8px;
+            font-size: 0.7rem;
+        }
+
+        .connection-status {
+            font-size: 0.78rem;
+            padding: 5px 10px;
+            border-radius: 6px;
+            background: var(--error-bg);
+            color: var(--error-text);
+            font-weight: 600;
+        }
+
+        .connection-status.connected {
+            background: var(--success-bg);
+            color: var(--success-text);
+        }
+
+        .connection-status.connecting {
+            background: var(--warning-bg);
+            color: var(--warning-text);
+        }
+
+        /* ============================================================
+           PANEL DE BALANZA EN VIVO
+           ============================================================ */
+        .scale-panel {
+            background: linear-gradient(135deg, #0f172a, #1e293b);
+            color: #f1f5f9;
+            border-radius: 12px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+            display: none;
+        }
+
+        .scale-panel.visible {
+            display: block;
+        }
+
+        .scale-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .scale-header h3 {
+            font-size: 0.95rem;
+            color: #4ade80;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .scale-display {
+            display: flex;
+            align-items: baseline;
+            gap: 12px;
+            background: #0a0f1a;
+            border: 2px solid #334155;
+            border-radius: 10px;
+            padding: 12px 20px;
+            margin-bottom: 12px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .scale-value {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #4ade80;
+            letter-spacing: 2px;
+            text-shadow: 0 0 20px rgba(74, 222, 128, 0.4);
+        }
+
+        .scale-unit {
+            font-size: 1.1rem;
+            color: #94a3b8;
+        }
+
+        .scale-stability {
+            margin-left: auto;
+            font-size: 0.75rem;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .scale-stability.stable {
+            background: #052e16;
+            color: #86efac;
+            border: 1px solid #166534;
+        }
+
+        .scale-stability.unstable {
+            background: #422006;
+            color: #fcd34d;
+            border: 1px solid #92400e;
+        }
+
+        .scale-stability.offline {
+            background: #1e293b;
+            color: #64748b;
+            border: 1px solid #334155;
+        }
+
+        .scale-meta {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .scale-meta-item {
+            background: #0a0f1a;
+            border: 1px solid #1e293b;
+            border-radius: 8px;
+            padding: 8px 12px;
+        }
+
+        .scale-meta-label {
+            font-size: 0.65rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 3px;
+        }
+
+        .scale-meta-value {
+            font-size: 0.78rem;
+            color: #cbd5e1;
+            font-family: 'Courier New', monospace;
+            word-break: break-all;
+        }
+
+        .scale-modes {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+        }
+
+        .mode-btn {
+            background: #1e293b;
+            color: #94a3b8;
+            border: 1px solid #334155;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .mode-btn:hover {
+            background: #334155;
+            color: #f1f5f9;
+        }
+
+        .mode-btn.active {
+            background: #166534;
+            color: #86efac;
+            border-color: #4ade80;
+        }
+
+        .scale-actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .scale-actions .btn {
+            font-size: 0.75rem;
+            padding: 6px 12px;
+        }
+
+        .scale-config {
+            background: #0a0f1a;
+            border: 1px solid #1e293b;
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 12px;
+            display: none;
+        }
+
+        .scale-config.visible {
+            display: block;
+        }
+
+        .scale-config-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 10px;
+        }
+
+        .scale-config label {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            font-size: 0.7rem;
+            color: #94a3b8;
+        }
+
+        .scale-config select {
+            background: #1e293b;
+            color: #f1f5f9;
+            border: 1px solid #334155;
+            border-radius: 6px;
+            padding: 6px 8px;
+            font-size: 0.75rem;
+            cursor: pointer;
+        }
+
+        .scale-config select:focus {
+            outline: none;
+            border-color: #4ade80;
+        }
+
+        /* ============================================================
+           TABLA DE MUESTRAS CON SELECCIÓN
+           ============================================================ */
+        #muestras-table tbody tr {
+            transition: background 0.2s ease;
+        }
+
+        #muestras-table tbody tr.selected {
+            background: #dcfce7 !important;
+            box-shadow: inset 3px 0 0 var(--primary-green);
+        }
+
+        #muestras-table tbody tr:hover {
+            background: #f0fdf4;
+        }
+
+        .fila-selector {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+
+        .fila-selector:hover {
+            background: var(--light-green);
+        }
+
+        .fila-selector.activo {
+            background: var(--primary-green);
+            color: white;
+        }
+
+        /* ============================================================
+           HOJA A4
+           ============================================================ */
+        .page-wrapper {
+            position: relative;
+            margin: 0 auto 30px auto;
+            max-width: 210mm;
+        }
+
+        .page-label {
+            position: absolute;
+            top: -12px;
+            left: 12px;
+            background: var(--primary-green);
+            color: #ffffff;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 2px 10px;
+            border-radius: 4px;
+            letter-spacing: 0.5px;
+            z-index: 2;
+        }
+
+        .page {
+            width: 210mm;
+            height: 297mm;
+            max-height: 297mm;
+            background: #ffffff;
+            color: #222222;
+            padding: 20mm;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .page-content {
+            flex: 1 1 auto;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            min-height: 0;
+        }
+
+        .report-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 3px solid var(--primary-green);
+            padding-bottom: 12px;
+            margin-bottom: 15px;
+            flex-shrink: 0;
+        }
+
+        .brand-logo {
+            max-height: 45px;
+            max-width: 160px;
+            object-fit: contain;
+        }
+
+        .report-title-box {
+            text-align: right;
+        }
+
+        .report-title-box h1 {
+            font-size: 1.1rem;
+            color: var(--primary-green);
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .report-meta {
+            font-size: 0.78rem;
+            color: var(--text-sub);
+            margin-top: 2px;
+        }
+
+        h3.section-title {
+            background-color: var(--light-green);
+            color: var(--primary-green);
+            padding: 6px 10px;
+            font-size: 0.85rem;
+            border-left: 4px solid var(--primary-green);
+            margin: 12px 0 8px 0;
+            text-transform: uppercase;
+            font-weight: 700;
+            border-radius: 0 6px 6px 0;
+            flex-shrink: 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 10px;
+            font-size: 0.8rem;
+            table-layout: fixed;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        table, th, td {
+            border: 1px solid var(--border-color);
+        }
+
+        th, td {
+            padding: 6px 8px;
+            vertical-align: middle;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        th {
+            background-color: var(--light-green);
+            color: var(--primary-green);
+            text-align: left;
+            font-weight: 700;
+        }
+
+        td {
+            background-color: transparent;
+            color: #222222;
+        }
+
+        .peso-cell {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+        }
+
+        [contenteditable="true"] {
+            outline: 1px dashed transparent;
+            transition: outline 0.2s, background 0.2s;
+            padding: 2px;
+            border-radius: 4px;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        [contenteditable="true"]:hover {
+            outline: 1px dashed var(--accent-green);
+            background-color: var(--panel-hover);
+        }
+
+        [contenteditable="true"]:focus {
+            outline: 2px solid var(--primary-green);
+            background-color: #ffffff;
+        }
+
+        input.editable-input,
+        select.editable-input,
+        textarea.editable-input {
+            width: 100%;
+            border: 1px solid transparent;
+            background: transparent;
+            font-size: 0.8rem;
+            padding: 2px;
+            color: #222222;
+            font-family: inherit;
+            transition: background 0.2s, border-color 0.2s;
+        }
+
+        input.editable-input:hover,
+        input.editable-input:focus,
+        textarea.editable-input:focus {
+            border: 1px solid var(--border-color);
+            background: #ffffff;
+            outline: none;
+            border-radius: 4px;
+        }
+
+        input.editable-input::placeholder,
+        textarea.editable-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        textarea.editable-input {
+            resize: none;
+            display: block;
+        }
+
+        .fecha-field {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--panel-hover);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 3px 8px;
+            font-size: 0.8rem;
+        }
+
+        .fecha-field input[type="date"] {
+            border: none;
+            background: transparent;
+            font-size: 0.8rem;
+            color: var(--primary-green);
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .fecha-field input[type="date"]::-webkit-calendar-picker-indicator {
+            cursor: pointer;
+            filter: invert(20%) sepia(80%) saturate(500%) hue-rotate(80deg);
+        }
+
+        .fecha-field .fecha-texto {
+            color: var(--text-sub);
+            font-size: 0.72rem;
+            font-style: italic;
+        }
+
+        .fecha-toolbar {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+            font-size: 0.8rem;
+            flex-wrap: wrap;
+            flex-shrink: 0;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .sample-card {
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 12px;
+            background: #fafafa;
+            overflow: hidden;
+        }
+
+        .sample-card h4 {
+            color: var(--primary-green);
+            font-size: 0.85rem;
+            border-bottom: 2px solid var(--primary-green);
+            padding-bottom: 4px;
+            margin-bottom: 8px;
+            font-weight: 700;
+        }
+
+        .signatures-section {
+            display: flex;
+            justify-content: space-between;
+            margin-top: auto;
+            padding-top: 15px;
+            border-top: 1px solid var(--border-soft);
+            flex-shrink: 0;
+        }
+
+        .signature-box {
+            width: 45%;
+            text-align: center;
+        }
+
+        .signature-line {
+            border-top: 1px solid #333333;
+            margin-top: 35px;
+            margin-bottom: 5px;
+            opacity: 0.6;
+        }
+
+        .anexos-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 8px;
+        }
+
+        .anexo-column {
+            background: #fafafa;
+            border: 1px solid var(--border-color);
+            padding: 8px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .anexo-column h4 {
+            color: var(--primary-green);
+            margin-bottom: 6px;
+            font-size: 0.8rem;
+            border-bottom: 2px solid var(--primary-green);
+            padding-bottom: 3px;
+            font-weight: 700;
+        }
+
+        .image-upload-card {
+            background: #ffffff;
+            border: 2px dashed var(--border-color);
+            padding: 8px;
+            text-align: center;
+            border-radius: 6px;
+            margin-bottom: 8px;
+            overflow: hidden;
+        }
+
+        .image-upload-card img {
+            max-width: 100%;
+            max-height: 95px;
+            height: auto;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-bottom: 4px;
+            display: none;
+        }
+
+        .file-input-label {
+            display: inline-block;
+            background: var(--light-green);
+            color: var(--primary-green);
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+
+        .file-input-label:hover {
+            background: var(--border-color);
+        }
+
+        .file-input-hidden {
+            display: none;
+        }
+
+        /* ============================================================
+           RESPONSIVO
+           ============================================================ */
+        @media (max-width: 900px) {
+            .page {
+                width: 100%;
+                height: auto;
+                max-height: none;
+                padding: 12mm;
+                overflow: visible;
+            }
+            .page-wrapper {
+                max-width: 100%;
+            }
+            .page-label {
+                display: none;
+            }
+            .scale-value {
+                font-size: 1.6rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .comparison-grid, .anexos-grid {
+                grid-template-columns: 1fr;
+            }
+            .system-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .system-clock {
+                align-items: flex-start;
+            }
+        }
+
+        /* ============================================================
+           IMPRESIÓN
+           ============================================================ */
+        @media print {
+            html, body {
+                background: #ffffff !important;
+                color: #000000 !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                width: 100% !important;
+                height: auto !important;
+            }
+
+            .system-header,
+            .nav-tabs,
+            .control-panel,
+            .fecha-toolbar,
+            .page-label,
+            .btn,
+            .connection-status,
+            .file-input-label,
+            .scale-panel,
+            .print-preview-note,
+            .fila-selector {
+                display: none !important;
+            }
+
+            .col-accion {
+                display: none !important;
+                width: 0 !important;
+                padding: 0 !important;
+                border: none !important;
+            }
+
+            .btn-leer-inline {
+                display: none !important;
+            }
+
+            #muestras-table th:nth-child(1),
+            #muestras-table td:nth-child(1) { width: 30% !important; }
+            #muestras-table th:nth-child(2),
+            #muestras-table td:nth-child(2) { width: 40% !important; }
+            #muestras-table th:nth-child(3),
+            #muestras-table td:nth-child(3) { width: 30% !important; }
+
+            .tab-content {
+                display: block !important;
+            }
+            .system-wrapper {
+                max-width: none !important;
+                margin: 0 !important;
+                padding: 0 !important;
+            }
+            .page-wrapper {
+                margin: 0 !important;
+                max-width: none !important;
+                padding: 0 !important;
+                page-break-after: always;
+                break-after: page;
+            }
+            .page-wrapper:last-child {
+                page-break-after: auto;
+                break-after: auto;
+            }
+
+            .page {
+                width: 210mm !important;
+                height: 297mm !important;
+                max-height: 297mm !important;
+                padding: 20mm !important;
+                margin: 0 !important;
+                box-shadow: none !important;
+                border: none !important;
+                border-radius: 0 !important;
+                overflow: hidden !important;
+                page-break-inside: avoid;
+                break-inside: avoid;
+                background: #ffffff !important;
+                color: #000000 !important;
+            }
+
+            .page-content {
+                overflow: hidden !important;
+                height: 100% !important;
+            }
+
+            input,
+            textarea,
+            select,
+            [contenteditable="true"] {
+                border: none !important;
+                background: transparent !important;
+                color: #000000 !important;
+                box-shadow: none !important;
+                outline: none !important;
+                -webkit-appearance: none !important;
+                appearance: none !important;
+                padding: 0 !important;
+                margin: 0 !important;
+                font-family: inherit !important;
+                font-size: inherit !important;
+                font-weight: inherit !important;
+                resize: none !important;
+                overflow: hidden !important;
+                width: 100% !important;
+                height: auto !important;
+                min-height: 0 !important;
+                line-height: 1.4 !important;
+            }
+
+            input[type="date"]::-webkit-calendar-picker-indicator,
+            input[type="date"]::-webkit-inner-spin-button {
+                display: none !important;
+                -webkit-appearance: none !important;
+                appearance: none !important;
+            }
+
+            input[type="date"] {
+                color: #000000 !important;
+                font-weight: bold !important;
+            }
+
+            .fecha-field {
+                background: transparent !important;
+                border: none !important;
+                padding: 0 !important;
+                gap: 4px !important;
+            }
+
+            .fecha-field .fecha-texto {
+                color: #000000 !important;
+                font-style: normal !important;
+            }
+
+            table, th, td {
+                border-color: #999999 !important;
+                color: #000000 !important;
+                background: #ffffff !important;
+            }
+
+            th {
+                background: #e8f5e9 !important;
+                color: #1b5e20 !important;
+            }
+
+            .section-title {
+                background: #e8f5e9 !important;
+                color: #1b5e20 !important;
+                border-left-color: #1b5e20 !important;
+            }
+
+            .sample-card,
+            .anexo-column,
+            .image-upload-card {
+                background: #ffffff !important;
+                border-color: #cccccc !important;
+                border-radius: 4px !important;
+            }
+
+            .signatures-section {
+                border-top-color: #cccccc !important;
+                margin-top: auto !important;
+            }
+            .signature-line {
+                border-top-color: #000000 !important;
+                opacity: 1 !important;
+            }
+
+            img {
+                max-width: 100% !important;
+                height: auto !important;
+            }
+
+            @page {
+                size: A4 portrait;
+                margin: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="system-wrapper">
+
+        <!-- Cabecera del Sistema -->
+        <div class="system-header">
+            <div class="system-title-area">
+                <h1>Sistema de muestras e informes</h1>
+                <p>Plataforma profesional de análisis gravimétrico y control metrológico</p>
+            </div>
+            <div class="system-clock">
+                <span class="clock-fecha" id="reloj-fecha">—</span>
+                <span class="clock-hora" id="reloj-hora">—</span>
+            </div>
+        </div>
+
+        <!-- Pestañas -->
+        <div class="nav-tabs">
+            <button class="tab-btn active" onclick="cambiarPestana('informe')">📄 Informe de Mantenimiento y Pesaje</button>
+            <button class="tab-btn" onclick="cambiarPestana('comparacion')">⚖️ Módulo de Comparación de Muestras</button>
+        </div>
+
+        <!-- Panel de Control -->
+        <div class="control-panel">
+            <div style="font-weight: 600; font-size: 0.9rem; color: var(--primary-green);">Panel de Control Operativo</div>
+            <div class="panel-buttons">
+                <span id="serial-status" class="connection-status">Balanza Desconectada</span>
+                <button class="btn btn-serial" id="btn-conectar" onclick="Balanza.conectar()">🔌 Conectar Balanza</button>
+                <button class="btn btn-danger" id="btn-desconectar" onclick="Balanza.desconectar()" style="display:none;">🔌 Desconectar</button>
+                <button class="btn" onclick="window.print()">🖨️ Imprimir / PDF</button>
+            </div>
+        </div>
+
+        <!-- Panel de Balanza en Vivo -->
+        <div class="scale-panel" id="scale-panel">
+            <div class="scale-header">
+                <h3>⚖️ Balanza Analítica — Lectura en Vivo</h3>
+                <button class="btn btn-secondary btn-mini" onclick="Balanza.toggleConfig()">⚙️ Configuración</button>
+            </div>
+
+            <div class="scale-display">
+                <span class="scale-value" id="scale-value">0.0000</span>
+                <span class="scale-unit" id="scale-unit">g</span>
+                <span class="scale-stability offline" id="scale-stability">SIN SEÑAL</span>
+            </div>
+
+            <div class="scale-meta">
+                <div class="scale-meta-item">
+                    <div class="scale-meta-label">Última trama</div>
+                    <div class="scale-meta-value" id="scale-raw">—</div>
+                </div>
+                <div class="scale-meta-item">
+                    <div class="scale-meta-label">Lecturas válidas</div>
+                    <div class="scale-meta-value" id="scale-count">0</div>
+                </div>
+                <div class="scale-meta-item">
+                    <div class="scale-meta-label">Modo de captura</div>
+                    <div class="scale-meta-value" id="scale-mode-label">Manual</div>
+                </div>
+                <div class="scale-meta-item">
+                    <div class="scale-meta-label">Fila destino</div>
+                    <div class="scale-meta-value" id="scale-target-label">—</div>
+                </div>
+            </div>
+
+            <div class="scale-modes">
+                <button class="mode-btn active" data-mode="manual" onclick="Balanza.setModo('manual')">✋ Manual</button>
+                <button class="mode-btn" data-mode="input" onclick="Balanza.setModo('input')">🎯 Input Activo</button>
+                <button class="mode-btn" data-mode="fila" onclick="Balanza.setModo('fila')">📋 Fila Seleccionada</button>
+            </div>
+
+            <div class="scale-actions">
+                <button class="btn btn-serial btn-mini" onclick="Balanza.capturarManual()">📡 Capturar ahora</button>
+                <button class="btn btn-secondary btn-mini" onclick="Balanza.limpiarVisor()">🧹 Limpiar visor</button>
+                <button class="btn btn-secondary btn-mini" onclick="Balanza.togglePromedio()">
+                    <span id="promedio-label">📊 Promedio: OFF</span>
+                </button>
+            </div>
+
+            <div class="scale-config" id="scale-config">
+                <div class="scale-config-grid">
+                    <label>
+                        Baudrate
+                        <select id="cfg-baudrate">
+                            <option value="1200">1200</option>
+                            <option value="2400">2400</option>
+                            <option value="4800">4800</option>
+                            <option value="9600" selected>9600</option>
+                            <option value="19200">19200</option>
+                            <option value="38400">38400</option>
+                            <option value="57600">57600</option>
+                            <option value="115200">115200</option>
+                        </select>
+                    </label>
+                    <label>
+                        Data bits
+                        <select id="cfg-databits">
+                            <option value="7">7</option>
+                            <option value="8" selected>8</option>
+                        </select>
+                    </label>
+                    <label>
+                        Stop bits
+                        <select id="cfg-stopbits">
+                            <option value="1" selected>1</option>
+                            <option value="2">2</option>
+                        </select>
+                    </label>
+                    <label>
+                        Paridad
+                        <select id="cfg-parity">
+                            <option value="none" selected>none</option>
+                            <option value="even">even</option>
+                            <option value="odd">odd</option>
+                        </select>
+                    </label>
+                    <label>
+                        Flow control
+                        <select id="cfg-flow">
+                            <option value="none" selected>none</option>
+                            <option value="hardware">hardware</option>
+                        </select>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= SECCIÓN 1: INFORME ================= -->
+        <div id="tab-informe" class="tab-content active">
+
+            <!-- HOJA 1 -->
+            <div class="page-wrapper">
+                <span class="page-label">HOJA 1 / 2</span>
+                <div class="page">
+                    <div class="page-content">
+                        <header class="report-header">
+                            <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='40'><text x='0' y='26' font-size='22' fill='%231b5e20' font-weight='bold'>itsotec</text></svg>" alt="Itsotec Logo" class="brand-logo">
+                            <div class="report-title-box">
+                                <h1>Informe de Ensayo y Mantenimiento</h1>
+                                <div class="report-meta">
+                                    MP <span id="meta-anio">2026</span> - <span contenteditable="true">22</span> | Página 1 de 2
+                                </div>
+                            </div>
+                        </header>
+
+                        <div class="fecha-toolbar">
+                            <span style="color: var(--text-sub); font-size: 0.75rem;">
+                                💡 Edita la fecha o pulsa "Hoy" para restaurarla.
+                            </span>
+                            <button class="btn btn-secondary btn-mini" onclick="GestorFechas.restaurarHoy()">
+                                📅 Hoy
+                            </button>
+                        </div>
+
+                        <div style="text-align: right; margin-bottom: 10px;">
+                            <div class="fecha-field" style="float: right;">
+                                <strong>FECHA DE EMISIÓN:</strong>
+                                <input type="date" id="fecha-emision" data-fecha-iso="" onchange="GestorFechas.alCambiarFecha(this)" />
+                                <span class="fecha-texto" id="fecha-emision-texto">—</span>
+                            </div>
+                            <div style="clear: both;"></div>
+                        </div>
+
+                        <h3 class="section-title">I. CLIENTE / SOLICITANTE</h3>
+                        <table>
+                            <tr>
+                                <th style="width: 20%;">Razón Social:</th>
+                                <td><input type="text" class="editable-input" value="UNIVERSIDAD NACIONAL AGRARIA LA MOLINA"></td>
+                            </tr>
+                            <tr>
+                                <th>Dirección:</th>
+                                <td><input type="text" class="editable-input" value="Av. La Molina s/n la Molina - Lima"></td>
+                            </tr>
+                            <tr>
+                                <th>Atención:</th>
+                                <td><input type="text" class="editable-input" value="Dr. Sady García Bendezú"></td>
+                            </tr>
+                        </table>
+
+                        <h3 class="section-title">II. DATOS TÉCNICOS DEL EQUIPO DE MEDICIÓN</h3>
+                        <table>
+                            <tr>
+                                <th style="width: 22%;">Instrumento:</th>
+                                <td><input type="text" class="editable-input" value="Balanza Analítica / Estufa"></td>
+                                <th style="width: 18%;">Código ID:</th>
+                                <td><input type="text" class="editable-input" value="BAL-LAB-01"></td>
+                            </tr>
+                            <tr>
+                                <th>Marca / Modelo:</th>
+                                <td><input type="text" class="editable-input" value="METTLER TOLEDO / ML204"></td>
+                                <th>Sensibilidad:</th>
+                                <td><input type="text" class="editable-input" value="0.0001 g"></td>
+                            </tr>
+                        </table>
+
+                        <h3 class="section-title">III. DIAGNÓSTICO Y OBSERVACIONES</h3>
+                        <table>
+                            <tr>
+                                <td>
+                                    <ul style="padding-left: 18px; font-size: 0.8rem;" contenteditable="true">
+                                        <li style="margin-bottom: 3px;">Equipo calibrado y verificado en óptimas condiciones metrológicas.</li>
+                                        <li>Ambiente de laboratorio con control de temperatura y humedad estables.</li>
+                                    </ul>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- HOJA 2 -->
+            <div class="page-wrapper">
+                <span class="page-label">HOJA 2 / 2</span>
+                <div class="page">
+                    <div class="page-content">
+                        <header class="report-header">
+                            <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='40'><text x='0' y='26' font-size='22' fill='%231b5e20' font-weight='bold'>itsotec</text></svg>" alt="Itsotec Logo" class="brand-logo">
+                            <div class="report-title-box">
+                                <h1>Informe de Mantenimiento</h1>
+                                <div class="report-meta">
+                                    MP <span class="meta-anio-sync">2026</span> - 22 | Página 2 de 2
+                                </div>
+                            </div>
+                        </header>
+
+                        <div style="text-align: right; margin-bottom: 10px;">
+                            <div class="fecha-field" style="float: right;">
+                                <strong>FECHA DE ENSAYO:</strong>
+                                <input type="date" id="fecha-ensayo" data-fecha-iso="" onchange="GestorFechas.alCambiarFecha(this)" />
+                                <span class="fecha-texto" id="fecha-ensayo-texto">—</span>
+                            </div>
+                            <div style="clear: both;"></div>
+                        </div>
+
+                        <h3 class="section-title">IV. REGISTRO ANALÍTICO DE MUESTRAS (PESAJE EN VIVO)</h3>
+                        <table id="muestras-table">
+                            <thead>
+                                <tr>
+                                    <th style="width: 25%;">ID Muestra</th>
+                                    <th>Descripción / Ensayo</th>
+                                    <th style="width: 28%;">Peso Capturado (g)</th>
+                                    <th class="col-accion" style="width: 50px; text-align: center;">Acción</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr data-fila-id="1">
+                                    <td><input type="text" class="editable-input" value="MUESTRA-01"></td>
+                                    <td><input type="text" class="editable-input" value="Ensayo gravimétrico inicial"></td>
+                                    <td>
+                                        <div class="peso-cell">
+                                            <input type="text" class="editable-input peso-input" value="0.0000 g" style="font-weight: bold; color: var(--primary-green);" oninput="sincronizarDatosComparacion()">
+                                            <button class="btn btn-serial btn-leer-inline" style="padding: 2px 6px; font-size: 0.7rem;" onclick="Balanza.capturarEnFila(this)">📡 Leer</button>
+                                        </div>
+                                    </td>
+                                    <td class="col-accion" style="text-align: center;">
+                                        <div class="fila-selector" onclick="Balanza.seleccionarFila(this)" title="Seleccionar como destino">🎯</div>
+                                        <button class="btn btn-danger" onclick="eliminarFilaMuestra(this)" style="margin-top: 2px;">X</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <button class="btn" style="padding: 6px 12px; font-size: 0.78rem; margin-bottom: 10px;" onclick="agregarFilaMuestra()">➕ Añadir Otra Muestra</button>
+
+                        <h3 class="section-title">V. CONCLUSIONES Y RECOMENDACIONES</h3>
+                        <table>
+                            <tr>
+                                <td>
+                                    <div contenteditable="true" style="font-size: 0.8rem;">
+                                        <p style="margin-bottom: 2px;">- Las muestras analizadas cumplen con los parámetros normativos establecidos.</p>
+                                        <p>- Se recomienda mantener el equipo sobre una mesa antivibratoria.</p>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <h3 class="section-title">VI. EVIDENCIA FOTOGRÁFICA DE LAS MUESTRAS</h3>
+                        <div class="anexos-grid">
+                            <div class="anexo-column">
+                                <h4>🔴 ESTADO INICIAL / MUESTRA</h4>
+                                <div id="container-antes">
+                                    <div class="image-upload-card">
+                                        <img src="" alt="Foto Inicial">
+                                        <label class="file-input-label">📁 Subir Imagen <input type="file" class="file-input-hidden" accept="image/*" onchange="previewImage(event, this)"></label>
+                                        <div contenteditable="true" style="margin-top: 3px; font-size: 0.7rem; color: var(--text-sub);">Descripción inicial.</div>
+                                        <button class="btn btn-danger" onclick="eliminarTarjeta(this)">Eliminar</button>
+                                    </div>
+                                </div>
+                                <button class="btn" style="width: 100%; padding: 4px; font-size: 0.7rem;" onclick="agregarFoto('antes')">➕ Añadir foto</button>
+                            </div>
+
+                            <div class="anexo-column">
+                                <h4>🟢 ESTADO FINAL / ENSAYO</h4>
+                                <div id="container-despues">
+                                    <div class="image-upload-card">
+                                        <img src="" alt="Foto Final">
+                                        <label class="file-input-label">📁 Subir Imagen <input type="file" class="file-input-hidden" accept="image/*" onchange="previewImage(event, this)"></label>
+                                        <div contenteditable="true" style="margin-top: 3px; font-size: 0.7rem; color: var(--text-sub);">Descripción final.</div>
+                                        <button class="btn btn-danger" onclick="eliminarTarjeta(this)">Eliminar</button>
+                                    </div>
+                                </div>
+                                <button class="btn" style="width: 100%; padding: 4px; font-size: 0.7rem;" onclick="agregarFoto('despues')">➕ Añadir foto</button>
+                            </div>
+                        </div>
+
+                        <div class="signatures-section">
+                            <div class="signature-box">
+                                <div class="signature-line"></div>
+                                <div contenteditable="true" style="font-weight: bold; font-size: 0.8rem;">Ing. Johannes Rivera Lopez</div>
+                                <div contenteditable="true" style="font-size: 0.7rem; color: var(--text-sub);">Especialista de Laboratorio - ITSOTEC</div>
+                            </div>
+                            <div class="signature-box">
+                                <div class="signature-line"></div>
+                                <div contenteditable="true" style="font-weight: bold; font-size: 0.8rem;">Dr. Sady García Bendezú</div>
+                                <div contenteditable="true" style="font-size: 0.7rem; color: var(--text-sub);">Responsable del Cliente - UNALM</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- ================= SECCIÓN 2: COMPARACIÓN ================= -->
+        <div id="tab-comparacion" class="tab-content">
+            <div class="page-wrapper">
+                <span class="page-label">COMPARACIÓN</span>
+                <div class="page">
+                    <div class="page-content">
+                        <header class="report-header">
+                            <img src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='40'><text x='0' y='26' font-size='22' fill='%231b5e20' font-weight='bold'>itsotec</text></svg>" alt="Itsotec Logo" class="brand-logo">
+                            <div class="report-title-box">
+                                <h1>Módulo de Comparación Analítica</h1>
+                                <div class="report-meta">Análisis Paralelo de Muestras</div>
+                            </div>
+                        </header>
+
+                        <div style="text-align: right; margin-bottom: 10px;">
+                            <div class="fecha-field" style="float: right;">
+                                <strong>FECHA DE COMPARACIÓN:</strong>
+                                <input type="date" id="fecha-comparacion" data-fecha-iso="" onchange="GestorFechas.alCambiarFecha(this)" />
+                                <span class="fecha-texto" id="fecha-comparacion-texto">—</span>
+                            </div>
+                            <div style="clear: both;"></div>
+                        </div>
+
+                        <h3 class="section-title">I. COMPARATIVA DE DATOS TOMADOS ENTRE DOS MUESTRAS</h3>
+
+                        <div class="comparison-grid">
+                            <div class="sample-card">
+                                <h4>MUESTRA A (CONTROL / REFERENCIA)</h4>
+                                <table>
+                                    <tr>
+                                        <th style="width: 40%;">Código / Lote:</th>
+                                        <td><input type="text" class="editable-input" value="REF-001-A"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Peso Capturado:</th>
+                                        <td><input type="text" id="comp-peso-a" class="editable-input" value="10.0050 g" style="font-weight: bold; color: var(--primary-green);"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Peso Final (g):</th>
+                                        <td><input type="text" class="editable-input" value="8.4520 g"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Humedad / Pérdida:</th>
+                                        <td><input type="text" class="editable-input" value="15.53 %"></td>
+                                    </tr>
+                                </table>
+                                <div style="margin-top: 8px;">
+                                    <strong style="font-size: 0.8rem; color: var(--primary-green);">Análisis y Observaciones (Muestra A):</strong>
+                                    <textarea class="editable-input" style="height: 80px; border: 1px solid var(--border-color); padding: 5px;" placeholder="Ingrese el texto de análisis...">La muestra de referencia presenta un comportamiento térmico estable dentro de los parámetros esperados de desecación.</textarea>
+                                </div>
+                            </div>
+
+                            <div class="sample-card">
+                                <h4>MUESTRA B (ENSAYO / PROBLEMA)</h4>
+                                <table>
+                                    <tr>
+                                        <th style="width: 40%;">Código / Lote:</th>
+                                        <td><input type="text" class="editable-input" value="PRB-002-B"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Peso Capturado:</th>
+                                        <td><input type="text" id="comp-peso-b" class="editable-input" value="0.0000 g" style="font-weight: bold; color: var(--primary-green);"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Peso Final (g):</th>
+                                        <td><input type="text" class="editable-input" value="7.9800 g"></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Humedad / Pérdida:</th>
+                                        <td><input type="text" class="editable-input" value="20.30 %"></td>
+                                    </tr>
+                                </table>
+                                <div style="margin-top: 8px;">
+                                    <strong style="font-size: 0.8rem; color: var(--primary-green);">Análisis y Observaciones (Muestra B):</strong>
+                                    <textarea class="editable-input" style="height: 80px; border: 1px solid var(--border-color); padding: 5px;" placeholder="Ingrese el texto de análisis...">Se observa mayor tasa de evaporación y pérdida de masa respecto al lote control, sincronizado automáticamente desde el pesaje en vivo.</textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h3 class="section-title">II. CONCLUSIÓN DE LA COMPARATIVA</h3>
+                        <table>
+                            <tr>
+                                <td>
+                                    <textarea class="editable-input" style="height: 70px; font-size: 0.85rem;" placeholder="Conclusiones cruzadas...">La Muestra B muestra una variación porcentual directa capturada desde el equipo metrológico, confirmando las diferencias operativas frente al lote control.</textarea>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <div class="signatures-section">
+                            <div class="signature-box">
+                                <div class="signature-line"></div>
+                                <div contenteditable="true" style="font-weight: bold; font-size: 0.8rem;">Ing. Johannes Rivera Lopez</div>
+                                <div contenteditable="true" style="font-size: 0.7rem; color: var(--text-sub);">Analista de Laboratorio</div>
+                            </div>
+                            <div class="signature-box">
+                                <div class="signature-line"></div>
+                                <div contenteditable="true" style="font-weight: bold; font-size: 0.8rem;">Dr. Sady García Bendezú</div>
+                                <div contenteditable="true" style="font-size: 0.7rem; color: var(--text-sub);">Jefe de Control de Calidad</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- ================= SCRIPT ================= -->
+    <script>
+    /* ============================================================
+       GESTOR CENTRALIZADO DE FECHAS - Itsotec
+       ============================================================ */
+    const GestorFechas = (function () {
+        'use strict';
+
+        const CONFIG = {
+            locale: 'es-PE',
+            timeZone: 'America/Lima',
+            storageKey: 'itsotec_fechas_v1',
+            formatos: {
+                largo:  { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' },
+                medio:  { year: 'numeric', month: 'long', day: 'numeric' },
+                corto:  { day: '2-digit', month: '2-digit', year: 'numeric' },
+                iso:    { year: 'numeric', month: '2-digit', day: '2-digit' }
+            }
+        };
+
+        const estado = {
+            fechaEmision: null,
+            fechaEnsayo: null,
+            fechaComparacion: null,
+            intervalReloj: null
+        };
+
+        function hoy() { return new Date(); }
+
+        function aISODate(fecha) {
+            const y = fecha.getFullYear();
+            const m = String(fecha.getMonth() + 1).padStart(2, '0');
+            const d = String(fecha.getDate()).padStart(2, '0');
+            return `${y}-${m}-${d}`;
+        }
+
+        function desdeISO(isoStr) {
+            if (!isoStr) return null;
+            const [y, m, d] = isoStr.split('-').map(Number);
+            if (!y || !m || !d) return null;
+            const f = new Date(y, m - 1, d);
+            return isNaN(f.getTime()) ? null : f;
+        }
+
+        function formatear(fecha, tipo = 'corto') {
+            if (!fecha) return '—';
+            try {
+                return fecha.toLocaleDateString(CONFIG.locale, CONFIG.formatos[tipo] || CONFIG.formatos.corto);
+            } catch {
+                return fecha.toLocaleDateString('es-ES');
+            }
+        }
+
+        function formatearHora(fecha) {
+            if (!fecha) return '—';
+            try {
+                return fecha.toLocaleTimeString(CONFIG.locale, {
+                    hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false
+                });
+            } catch {
+                return fecha.toLocaleTimeString();
+            }
+        }
+
+        function validarFecha(fecha) {
+            if (!fecha || isNaN(fecha.getTime())) return false;
+            const anio = fecha.getFullYear();
+            return anio >= 2000 && anio <= 2100;
+        }
+
+        function guardarEnStorage() {
+            try {
+                const datos = {
+                    fechaEmision: estado.fechaEmision ? aISODate(estado.fechaEmision) : null,
+                    fechaEnsayo: estado.fechaEnsayo ? aISODate(estado.fechaEnsayo) : null,
+                    fechaComparacion: estado.fechaComparacion ? aISODate(estado.fechaComparacion) : null,
+                    timestamp: Date.now()
+                };
+                localStorage.setItem(CONFIG.storageKey, JSON.stringify(datos));
+            } catch (e) {
+                console.warn('No se pudo guardar en localStorage:', e);
+            }
+        }
+
+        function cargarDeStorage() {
+            try {
+                const raw = localStorage.getItem(CONFIG.storageKey);
+                if (!raw) return false;
+                const datos = JSON.parse(raw);
+                if (datos.fechaEmision) estado.fechaEmision = desdeISO(datos.fechaEmision);
+                if (datos.fechaEnsayo) estado.fechaEnsayo = desdeISO(datos.fechaEnsayo);
+                if (datos.fechaComparacion) estado.fechaComparacion = desdeISO(datos.fechaComparacion);
+                return true;
+            } catch (e) {
+                console.warn('No se pudo cargar de localStorage:', e);
+                return false;
+            }
+        }
+
+        function renderizarCampo(idInput, idTexto, fecha) {
+            const input = document.getElementById(idInput);
+            const texto = document.getElementById(idTexto);
+            if (input) {
+                input.value = fecha ? aISODate(fecha) : '';
+                input.setAttribute('data-fecha-iso', input.value);
+            }
+            if (texto) {
+                texto.textContent = fecha ? formatear(fecha, 'largo') : '—';
+            }
+        }
+
+        function renderizarTodos() {
+            renderizarCampo('fecha-emision', 'fecha-emision-texto', estado.fechaEmision);
+            renderizarCampo('fecha-ensayo', 'fecha-ensayo-texto', estado.fechaEnsayo);
+            renderizarCampo('fecha-comparacion', 'fecha-comparacion-texto', estado.fechaComparacion);
+        }
+
+        function renderizarReloj() {
+            const ahora = hoy();
+            const elFecha = document.getElementById('reloj-fecha');
+            const elHora = document.getElementById('reloj-hora');
+            if (elFecha) elFecha.textContent = formatear(ahora, 'largo');
+            if (elHora) elHora.textContent = formatearHora(ahora);
+        }
+
+        function actualizarMetaAnio() {
+            const anio = hoy().getFullYear();
+            const el = document.getElementById('meta-anio');
+            if (el) el.textContent = anio;
+            document.querySelectorAll('.meta-anio-sync').forEach(n => n.textContent = anio);
+        }
+
+        function inicializar() {
+            const cargado = cargarDeStorage();
+            if (!cargado) {
+                const ahora = hoy();
+                estado.fechaEmision = ahora;
+                estado.fechaEnsayo = ahora;
+                estado.fechaComparacion = ahora;
+            }
+            renderizarTodos();
+            renderizarReloj();
+            actualizarMetaAnio();
+
+            if (estado.intervalReloj) clearInterval(estado.intervalReloj);
+            estado.intervalReloj = setInterval(() => {
+                renderizarReloj();
+                actualizarMetaAnio();
+            }, 1000);
+
+            window.addEventListener('beforeunload', guardarEnStorage);
+            console.log('✅ GestorFechas inicializado');
+        }
+
+        function alCambiarFecha(input) {
+            const id = input.id;
+            const fecha = desdeISO(input.value);
+
+            if (!validarFecha(fecha)) {
+                alert('⚠️ La fecha ingresada no es válida.');
+                renderizarTodos();
+                return;
+            }
+
+            if (id === 'fecha-emision') estado.fechaEmision = fecha;
+            else if (id === 'fecha-ensayo') estado.fechaEnsayo = fecha;
+            else if (id === 'fecha-comparacion') estado.fechaComparacion = fecha;
+
+            renderizarTodos();
+            guardarEnStorage();
+        }
+
+        function restaurarHoy() {
+            const ahora = hoy();
+            estado.fechaEmision = ahora;
+            estado.fechaEnsayo = ahora;
+            estado.fechaComparacion = ahora;
+            renderizarTodos();
+            guardarEnStorage();
+        }
+
+        return {
+            inicializar, alCambiarFecha, restaurarHoy,
+            formatear, formatearHora, aISODate, desdeISO
+        };
+    })();
+
+
+    /* ============================================================
+       MÓDULO BALANZA - Captura automática real
+       ============================================================ */
+    const Balanza = (function () {
+        'use strict';
+
+        // ===== Estado interno =====
+        const estado = {
+            puerto: null,
+            reader: null,
+            textDecoder: null,
+            conectado: false,
+            conectando: false,
+            modo: 'manual',          // 'manual' | 'input' | 'fila'
+            filaSeleccionada: null,  // <tr> seleccionado
+            ultimoPeso: 0,
+            ultimaUnidad: 'g',
+            estable: false,
+            contadorLecturas: 0,
+            promedioActivo: false,
+            bufferPromedio: [],
+            tamanoPromedio: 5,
+            reconectarAuto: true,
+            ultimaTrama: ''
+        };
+
+        // ===== Utilidades =====
+        function log(...args) {
+            console.log('[Balanza]', ...args);
+        }
+
+        function $(id) { return document.getElementById(id); }
+
+        function setStatus(texto, clase) {
+            const el = $('serial-status');
+            if (!el) return;
+            el.textContent = texto;
+            el.classList.remove('connected', 'connecting');
+            if (clase) el.classList.add(clase);
+        }
+
+        function actualizarVisor(peso, unidad, estable) {
+            $('scale-value').textContent = peso.toFixed(4);
+            $('scale-unit').textContent = unidad;
+
+            const stab = $('scale-stability');
+            stab.classList.remove('stable', 'unstable', 'offline');
+            if (!estado.conectado) {
+                stab.textContent = 'SIN SEÑAL';
+                stab.classList.add('offline');
+            } else if (estable) {
+                stab.textContent = 'ESTABLE';
+                stab.classList.add('stable');
+            } else {
+                stab.textContent = 'INESTABLE';
+                stab.classList.add('unstable');
+            }
+        }
+
+        function actualizarMeta() {
+            $('scale-count').textContent = estado.contadorLecturas;
+            $('scale-raw').textContent = estado.ultimaTrama || '—';
+            $('scale-mode-label').textContent = {
+                manual: 'Manual',
+                input: 'Input Activo',
+                fila: 'Fila Seleccionada'
+            }[estado.modo];
+            $('scale-target-label').textContent = estado.filaSeleccionada
+                ? (estado.filaSeleccionada.querySelector('td input')?.value || '—')
+                : '—';
+        }
+
+        // ===== Parser de trama =====
+        /**
+         * Formatos soportados:
+         *  - Mettler Toledo: "ST,GS,+  10.0050 g"  → estable si empieza con ST
+         *  - Sartorius:      "+  10.0050 g"        → siempre estable
+         *  - Ohaus:          "  10.0050 g"         → siempre estable
+         *  - Genérico:       cualquier número
+         */
+        function parsearTrama(trama) {
+            if (!trama || typeof trama !== 'string') return null;
+
+            const limpia = trama.trim();
+            if (!limpia) return null;
+
+            // Detectar estabilidad
+            let estable = true;
+            if (/\bST\b/i.test(limpia) || /^ST[,\s]/i.test(limpia)) {
+                estable = true;
+            } else if (/\bUS\b/i.test(limpia) || /^US[,\s]/i.test(limpia)) {
+                estable = false;
+            }
+
+            // Extraer peso (primer número flotante con signo opcional)
+            const match = limpia.match(/[-+]?\s*\d+\.\d+/);
+            if (!match) return null;
+
+            const pesoStr = match[0].replace(/\s+/g, '');
+            const peso = parseFloat(pesoStr);
+            if (isNaN(peso)) return null;
+
+            // Extraer unidad (g, kg, mg, oz, etc.)
+            const unidadMatch = limpia.match(/\b(g|kg|mg|oz|lb|ct)\b/i);
+            const unidad = unidadMatch ? unidadMatch[1].toLowerCase() : 'g';
+
+            return { peso, unidad, estable, crudo: limpia };
+        }
+
+        // ===== Distribución del peso =====
+        function distribuirPeso(peso, unidad) {
+            const valorFormateado = `${peso.toFixed(4)} ${unidad}`;
+
+            // Modo 1: Input activo
+            if (estado.modo === 'input') {
+                const activo = document.activeElement;
+                if (activo && activo.classList && activo.classList.contains('peso-input')) {
+                    activo.value = valorFormateado;
+                    sincronizarDatosComparacion();
+                    log('→ Volcado a input activo:', valorFormateado);
+                }
+                return;
+            }
+
+            // Modo 2: Fila seleccionada
+            if (estado.modo === 'fila') {
+                if (estado.filaSeleccionada) {
+                    const input = estado.filaSeleccionada.querySelector('.peso-input');
+                    if (input) {
+                        input.value = valorFormateado;
+                        sincronizarDatosComparacion();
+                        log('→ Volcado a fila seleccionada:', valorFormateado);
+                    }
+                } else {
+                    log('⚠️ No hay fila seleccionada');
+                }
+                return;
+            }
+
+            // Modo 3: Manual → solo visor
+            log('→ Modo manual, solo visor:', valorFormateado);
+        }
+
+        // ===== Promedio =====
+        function procesarPromedio(peso, unidad, estable, callback) {
+            if (!estado.promedioActivo || !estable) {
+                callback(peso, unidad);
+                return;
+            }
+
+            estado.bufferPromedio.push(peso);
+            if (estado.bufferPromedio.length > estado.tamanoPromedio) {
+                estado.bufferPromedio.shift();
+            }
+
+            if (estado.bufferPromedio.length === estado.tamanoPromedio) {
+                const suma = estado.bufferPromedio.reduce((a, b) => a + b, 0);
+                const promedio = suma / estado.bufferPromedio.length;
+                callback(promedio, unidad);
+            }
+        }
+
+        // ===== Bucle de lectura =====
+        async function bucleLectura() {
+            const decodificador = new TextDecoderStream();
+            estado.textDecoder = decodificador;
+
+            estado.puerto.readable
+                .pipeTo(decodificador.writable)
+                .catch(err => log('pipeTo error:', err));
+
+            estado.reader = decodificador.readable.getReader();
+            let buffer = '';
+
+            try {
+                while (true) {
+                    const { value, done } = await estado.reader.read();
+                    if (done) {
+                        log('Reader finalizado (done=true)');
+                        break;
+                    }
+                    if (!value) continue;
+
+                    buffer += value;
+
+                    // Procesar líneas completas
+                    let idx;
+                    while ((idx = buffer.search(/[\r\n]/)) !== -1) {
+                        const linea = buffer.slice(0, idx).trim();
+                        buffer = buffer.slice(idx + 1);
+
+                        if (!linea) continue;
+
+                        estado.ultimaTrama = linea;
+                        const parsed = parsearTrama(linea);
+                        if (!parsed) continue;
+
+                        estado.ultimoPeso = parsed.peso;
+                        estado.ultimaUnidad = parsed.unidad;
+                        estado.estable = parsed.estable;
+                        estado.contadorLecturas++;
+
+                        // Actualizar visor siempre
+                        actualizarVisor(parsed.peso, parsed.unidad, parsed.estable);
+                        actualizarMeta();
+
+                        // Volcar solo si es estable
+                        if (parsed.estable) {
+                            procesarPromedio(parsed.peso, parsed.unidad, true, (pesoFinal, unidadFinal) => {
+                                distribuirPeso(pesoFinal, unidadFinal);
+                            });
+                        }
+                    }
+                }
+            } catch (err) {
+                log('Error en bucle de lectura:', err);
+            } finally {
+                try { estado.reader.releaseLock(); } catch (e) {}
+                estado.reader = null;
+            }
+        }
+
+        // ===== API pública =====
+        async function conectar() {
+            if (!('serial' in navigator)) {
+                alert('❌ Tu navegador no soporta Web Serial API.\nUsa Google Chrome o Microsoft Edge en un contexto seguro (HTTPS o localhost).');
+                return;
+            }
+
+            if (estado.conectado || estado.conectando) return;
+
+            estado.conectando = true;
+            setStatus('Conectando...', 'connecting');
+
+            try {
+                estado.puerto = await navigator.serial.requestPort();
+
+                const config = {
+                    baudRate: parseInt($('cfg-baudrate').value, 10) || 9600,
+                    dataBits: parseInt($('cfg-databits').value, 10) || 8,
+                    stopBits: parseInt($('cfg-stopbits').value, 10) || 1,
+                    parity: $('cfg-parity').value || 'none',
+                    flowControl: $('cfg-flow').value || 'none'
+                };
+
+                await estado.puerto.open(config);
+                log('Puerto abierto con config:', config);
+
+                estado.conectado = true;
+                estado.conectando = false;
+                setStatus('Balanza Conectada 🟢', 'connected');
+
+                $('btn-conectar').style.display = 'none';
+                $('btn-desconectar').style.display = 'inline-flex';
+                $('scale-panel').classList.add('visible');
+
+                // Escuchar desconexión inesperada
+                navigator.serial.addEventListener('disconnect', (e) => {
+                    if (e.target === estado.puerto) {
+                        log('Puerto desconectado físicamente');
+                        desconectar();
+                    }
+                });
+
+                // Iniciar bucle
+                bucleLectura();
+
+            } catch (err) {
+                log('Error al conectar:', err);
+                estado.conectando = false;
+                setStatus('Error de Conexión 🔴');
+                alert('❌ No se pudo conectar a la balanza.\n\nDetalle: ' + (err.message || err));
+            }
+        }
+
+        async function desconectar() {
+            log('Desconectando...');
+
+            try {
+                if (estado.reader) {
+                    await estado.reader.cancel();
+                    try { estado.reader.releaseLock(); } catch (e) {}
+                    estado.reader = null;
+                }
+            } catch (err) {
+                log('Error al cancelar reader:', err);
+            }
+
+            try {
+                if (estado.puerto) {
+                    await estado.puerto.close();
+                    estado.puerto = null;
+                }
+            } catch (err) {
+                log('Error al cerrar puerto:', err);
+            }
+
+            estado.conectado = false;
+            estado.conectando = false;
+            estado.contadorLecturas = 0;
+            estado.bufferPromedio = [];
+
+            setStatus('Balanza Desconectada');
+            $('btn-conectar').style.display = 'inline-flex';
+            $('btn-desconectar').style.display = 'none';
+            $('scale-panel').classList.remove('visible');
+            actualizarVisor(0, 'g', false);
+        }
+
+        function setModo(modo) {
+            if (!['manual', 'input', 'fila'].includes(modo)) return;
+            estado.modo = modo;
+
+            document.querySelectorAll('.mode-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.mode === modo);
+            });
+
+            actualizarMeta();
+            log('Modo cambiado a:', modo);
+        }
+
+        function seleccionarFila(btn) {
+            const fila = btn.closest('tr');
+
+            // Quitar selección previa
+            document.querySelectorAll('#muestras-table tbody tr').forEach(tr => {
+                tr.classList.remove('selected');
+                const sel = tr.querySelector('.fila-selector');
+                if (sel) sel.classList.remove('activo');
+            });
+
+            // Si ya estaba seleccionada, deseleccionar
+            if (estado.filaSeleccionada === fila) {
+                estado.filaSeleccionada = null;
+                log('Fila deseleccionada');
+            } else {
+                estado.filaSeleccionada = fila;
+                fila.classList.add('selected');
+                btn.classList.add('activo');
+                log('Fila seleccionada:', fila.querySelector('td input')?.value);
+            }
+
+            actualizarMeta();
+        }
+
+        function capturarEnFila(btn) {
+            const fila = btn.closest('tr');
+            const input = fila.querySelector('.peso-input');
+            if (!input) return;
+
+            if (!estado.conectado) {
+                alert('⚠️ La balanza no está conectada.');
+                return;
+            }
+
+            if (!estado.estable) {
+                log('Lectura inestable, capturando igualmente...');
+            }
+
+            const valor = `${estado.ultimoPeso.toFixed(4)} ${estado.ultimaUnidad}`;
+            input.value = valor;
+            sincronizarDatosComparacion();
+            log('Captura manual en fila:', valor);
+        }
+
+        function capturarManual() {
+            if (!estado.conectado) {
+                alert('⚠️ La balanza no está conectada.');
+                return;
+            }
+            distribuirPeso(estado.ultimoPeso, estado.ultimaUnidad);
+        }
+
+        function limpiarVisor() {
+            estado.contadorLecturas = 0;
+            estado.ultimaTrama = '';
+            estado.bufferPromedio = [];
+            actualizarVisor(0, 'g', false);
+            actualizarMeta();
+        }
+
+        function togglePromedio() {
+            estado.promedioActivo = !estado.promedioActivo;
+            estado.bufferPromedio = [];
+            $('promedio-label').textContent = `📊 Promedio: ${estado.promedioActivo ? 'ON' : 'OFF'}`;
+            log('Promedio:', estado.promedioActivo);
+        }
+
+        function toggleConfig() {
+            $('scale-config').classList.toggle('visible');
+        }
+
+        // Exponer API
+        return {
+            conectar,
+            desconectar,
+            setModo,
+            seleccionarFila,
+            capturarEnFila,
+            capturarManual,
+            limpiarVisor,
+            togglePromedio,
+            toggleConfig,
+            getEstado: () => ({ ...estado })
+        };
+    })();
+
+
+    /* ============================================================
+       FUNCIONES GENERALES
+       ============================================================ */
+
+    function cambiarPestana(tabName) {
+        document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+
+        if (tabName === 'informe') {
+            document.getElementById('tab-informe').classList.add('active');
+            document.querySelectorAll('.tab-btn')[0].classList.add('active');
+        } else {
+            document.getElementById('tab-comparacion').classList.add('active');
+            document.querySelectorAll('.tab-btn')[1].classList.add('active');
+            sincronizarDatosComparacion();
+        }
+    }
+
+    function sincronizarDatosComparacion() {
+        const primeraMuestraInput = document.querySelector('#muestras-table tbody tr:first-child .peso-input');
+        if (primeraMuestraInput) {
+            const campoCompB = document.getElementById('comp-peso-b');
+            if (campoCompB) campoCompB.value = primeraMuestraInput.value;
+        }
+    }
+
+    function agregarFilaMuestra() {
+        const tbody = document.querySelector('#muestras-table tbody');
+        const newRow = tbody.insertRow();
+        const num = tbody.rows.length;
+
+        newRow.dataset.filaId = num;
+        newRow.innerHTML = `
+            <td><input type="text" class="editable-input" value="MUESTRA-0${num}"></td>
+            <td><input type="text" class="editable-input" value="Nuevo ensayo analítico"></td>
+            <td>
+                <div class="peso-cell">
+                    <input type="text" class="editable-input peso-input" value="0.0000 g" style="font-weight: bold; color: var(--primary-green);" oninput="sincronizarDatosComparacion()">
+                    <button class="btn btn-serial btn-leer-inline" style="padding: 2px 6px; font-size: 0.7rem;" onclick="Balanza.capturarEnFila(this)">📡 Leer</button>
+                </div>
+            </td>
+            <td class="col-accion" style="text-align: center;">
+                <div class="fila-selector" onclick="Balanza.seleccionarFila(this)" title="Seleccionar como destino">🎯</div>
+                <button class="btn btn-danger" onclick="eliminarFilaMuestra(this)" style="margin-top: 2px;">X</button>
+            </td>
+        `;
+    }
+
+    function eliminarFilaMuestra(btn) {
+        const tbody = document.querySelector('#muestras-table tbody');
+        if (tbody.rows.length > 1) {
+            const fila = btn.closest('tr');
+            // Si era la fila seleccionada, limpiar
+            if (fila.classList.contains('selected')) {
+                fila.classList.remove('selected');
+            }
+            fila.remove();
+            sincronizarDatosComparacion();
+        } else {
+            alert("Debe mantenerse al menos una muestra.");
+        }
+    }
+
+    function previewImage(event, inputElement) {
+        const reader = new FileReader();
+        reader.onload = function(){
+            const img = inputElement.closest('.image-upload-card').querySelector('img');
+            img.src = reader.result;
+            img.style.display = 'block';
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
+
+    function agregarFoto(tipo) {
+        const container = document.getElementById(tipo === 'antes' ? 'container-antes' : 'container-despues');
+        const card = document.createElement('div');
+        card.className = 'image-upload-card';
+        card.innerHTML = `
+            <img src="" alt="Foto">
+            <label class="file-input-label">📁 Subir <input type="file" class="file-input-hidden" accept="image/*" onchange="previewImage(event, this)"></label>
+            <div contenteditable="true" style="margin-top: 3px; font-size: 0.7rem; color: var(--text-sub);">Descripción...</div>
+            <button class="btn btn-danger" onclick="eliminarTarjeta(this)">Eliminar</button>
+        `;
+        container.appendChild(card);
+    }
+
+    function eliminarTarjeta(btn) {
+        btn.closest('.image-upload-card').remove();
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+        GestorFechas.inicializar();
+        console.log('✅ Sistema Itsotec listo');
+        console.log('💡 Web Serial requiere HTTPS o localhost');
+    });
+    </script>
+</body>
+</html>
